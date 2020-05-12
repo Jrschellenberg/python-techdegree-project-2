@@ -22,10 +22,10 @@ def __convert_exp_to_bool(string):
 
 
 def clean_data(players):
-    players_dict = {}
     players_list = []
 
     for player in players.copy():
+        players_dict = {}
         try:
             (key1, experience), \
                 (key2, guardians), \
@@ -41,6 +41,6 @@ def clean_data(players):
         except ValueError as err:
             print(err)
             print("Please fix data in constants.py and please try again")
-            sys.exit()
+            sys.exit(1)
 
     return players_list
