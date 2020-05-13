@@ -72,7 +72,7 @@ def balance_teams(teams, players):
                              "\nPlease Update players and try again")
         if not __is_team_experience_balanced(num_teams, experienced_players,
                                              inexperienced_players):
-            raise ValueError
+            raise ValueError("Cannot Balance Teams with The Given Data!")
 
         """
         Have algorithm that iterates over number of teams

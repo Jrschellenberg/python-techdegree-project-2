@@ -6,7 +6,8 @@ def __convert_height_to_int(string):
         [integer, *_] = string.split()
         return int(integer)
     except ValueError:
-        raise ValueError
+        raise ValueError("Could not Convert "
+                         "Height Properly To Integer!")
 
 
 def __convert_exp_to_bool(string):
