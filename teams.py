@@ -26,11 +26,14 @@ def __is_experienced(player):
 
 def __calculate_average_height(array):
     heights = list(map(lambda player: player['height'], array))
-    return reduce((lambda acc, cur: acc + cur), heights) / len(heights)
+    average_height = reduce((lambda acc, cur: acc + cur), heights) / len(heights)
+    return round(average_height, 2)
 
 
 def __flatten(l):
     # Code used from SOF https://stackoverflow.com/a/40601769
+    """Takes N-dimensional list, Returns 1-Dimensional list.
+    Returned list will be ordered following N-Dimensional list"""
     try:
         return __flatten(l[0]) \
                + (__flatten(l[1:]) if len(l) > 1 else []) if type(l) is list else [l]
@@ -38,13 +41,24 @@ def __flatten(l):
         return []
 
 
-def __get_guardians_str(array):
-    guardians = list(map(lambda player: player['guardians'], array))
+def __get_joined_str(array, key, delimiter):
+    """
+    :param list array: list to map over
+    :param str key: the key to look up in dictionary
+    :param str delimiter: The delimiter to join together list
+    :return:
+    """
+    guardians = list(map(lambda player: player[key], array))
     one_d_guardians = __flatten(guardians)
-    return ", ".join(one_d_guardians)
+    return delimiter.join(one_d_guardians)
 
 
 def balance_teams(teams, players):
+    """
+    :param list teams: List of Available Teams
+    :param list players: List of Available Players
+    :return list: Returns A Balanced list of teams with Players
+    """
     try:
         num_players = len(players)
         num_teams = len(teams)
@@ -87,8 +101,9 @@ def balance_teams(teams, players):
                 team_dict['players'].append(rand_player)
                 is_player_experienced = not is_player_experienced
 
-            # Now we add Stats as required
-            players = team_dict['players']
+            # Now we add Stats as Needed
+            players = team_dict['players'].copy()
+            del team_dict['players']
 
             team_dict['experienced_players_total'] = \
                 len(__get_experienced(players))
@@ -96,11 +111,13 @@ def balance_teams(teams, players):
                 len(__get_inexperienced(players))
 
             team_dict['average_height'] = __calculate_average_height(players)
-            team_dict['guardian_names'] = __get_guardians_str(players)
+            team_dict['guardian_names'] = __get_joined_str(players, "guardians", ", ")
+            team_dict['player_names'] = __get_joined_str(players, "name", ", ")
+            team_dict['total_players'] = len(players)
+            team_dict['team_name'] = teams[team]
 
             balanced_teams.append(team_dict)
 
-        print(balanced_teams)
         return balanced_teams
 
     except ValueError as err:
