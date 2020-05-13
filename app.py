@@ -32,12 +32,15 @@ def intro_msg():
 
 
 def get_user_selected_team(balanced_teams):
-    teams_to_display = list(map(lambda team: team['team_name'], balanced_teams))
+    teams_to_display = \
+        list(map(lambda team: team['team_name'], balanced_teams))
     valid_option = []
     user_error = ""
+
     for num, team in enumerate(teams_to_display, start=1):
         valid_option.append(str(num))
         print("{}.) {}".format(num, team))
+
     print("{}.) {}".format('0', 'Quit'))
 
     while True:

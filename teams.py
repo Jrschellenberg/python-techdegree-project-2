@@ -26,17 +26,19 @@ def __is_experienced(player):
 
 def __calculate_average_height(array):
     heights = list(map(lambda player: player['height'], array))
-    average_height = reduce((lambda acc, cur: acc + cur), heights) / len(heights)
+    average_height = \
+        reduce((lambda acc, cur: acc + cur), heights) / len(heights)
     return round(average_height, 2)
 
 
-def __flatten(l):
+def __flatten(arr):
     # Code used from SOF https://stackoverflow.com/a/40601769
     """Takes N-dimensional list, Returns 1-Dimensional list.
     Returned list will be ordered following N-Dimensional list"""
     try:
-        return __flatten(l[0]) \
-               + (__flatten(l[1:]) if len(l) > 1 else []) if type(l) is list else [l]
+        return __flatten(arr[0]) \
+               + (__flatten(arr[1:])
+                  if len(arr) > 1 else []) if type(arr) is list else [arr]
     except IndexError:
         return []
 
@@ -111,7 +113,8 @@ def balance_teams(teams, players):
                 len(__get_inexperienced(players))
 
             team_dict['average_height'] = __calculate_average_height(players)
-            team_dict['guardian_names'] = __get_joined_str(players, "guardians", ", ")
+            team_dict['guardian_names'] = \
+                __get_joined_str(players, "guardians", ", ")
             team_dict['player_names'] = __get_joined_str(players, "name", ", ")
             team_dict['total_players'] = len(players)
             team_dict['team_name'] = teams[team]
