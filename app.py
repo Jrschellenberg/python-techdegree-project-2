@@ -71,9 +71,9 @@ Guardian Names: {team['guardian_names']}
 def init():
     teams = TEAMS.copy()
     players = clean_data(PLAYERS)
+    balanced_teams = balance_teams(teams, players)
     intro_msg()
     while True:
-        balanced_teams = balance_teams(teams, players)
         team_index = get_user_selected_team(balanced_teams)
         display_team_stats(balanced_teams[team_index])
 
